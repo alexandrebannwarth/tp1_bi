@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: bronze
+    schema: bronze
+    description: "Données brutes issues de la base MySQL bronze"
+    tables:
+      - name: customers
+        description: "Table brute des clients"
+      - name: orders
+        description: "Table brute des commandes"
+      - name: orderitems
+        description: "Table brute des lignes de commandes"

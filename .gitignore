@@ -1,0 +1,12 @@
+
+target/
+dbt_packages/
+logs/
+.venv/
+venv/
+debt_venv/
+.env
+.env.*
+!.env.example
+dbt_venv/
+profiles.yml
