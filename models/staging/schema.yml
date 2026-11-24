@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Vue nettoyée des clients (couche silver)"
+    columns:
+      - name: customerid
+        description: "Identifiant unique du client"
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_orders
+    description: "Vue nettoyée des commandes clients (couche silver)"
+    columns:
+      - name: orderid
+        description: "Identifiant unique de la commande"
+        tests:
+          - unique
+          - not_null
+      - name: customerid
+        description: "Clé étrangère vers stg_customers"
+
+  - name: stg_orders_items
+    description: "Vue nettoyée des lignes de commandes avec calcul du montant total par ligne (couche silver)"
+    columns:
+      - name: orderitemid
+        description: "Identifiant de la ligne de commande"
+      - name: orderid
+        description: "Clé étrangère vers stg_orders"

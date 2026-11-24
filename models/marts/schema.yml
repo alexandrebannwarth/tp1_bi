@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: "Table de faits des commandes agrégées avec montants totaux et nombre d'articles (couche gold)"
+    columns:
+      - name: orderid
+        description: "Identifiant unique de la commande"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_customer_revenue
+    description: "Table de dimension des clients avec chiffre d'affaires cumulé et segmentation (couche gold)"
+    columns:
+      - name: customerid
+        description: "Identifiant unique du client"
+        tests:
+          - unique
+          - not_null
+
+  - name: store_performance
+    description: "Indicateurs de performance des magasins comparés aux objectifs de ventes (couche gold)"
+    columns:
+      - name: storeid
+        description: "Identifiant du magasin"
+
+  - name: orderitems_unique
+    description: "Table des lignes de commandes dédoublonnée via la macro dbt_utils.deduplicate (couche gold)"
+    columns:
+      - name: orderitemid
+        description: "Identifiant unique de la ligne de commande après dédoublonnage"
+        tests:
+          - unique
+          - not_null
+
+  - name: profit_india
+    description: "Agrégation journalière des revenus, coûts et profits convertis en euros pour l'Inde"
+    columns:
+      - name: sales_date
+        description: "Date de vente"
+      - name: total_profit_eur
+        description: "Profit journalier total en euros (arrondi à 2 décimales)"
+
+  - name: profit_us
+    description: "Agrégation journalière des revenus, coûts et profits convertis en euros pour les États-Unis"
+    columns:
+      - name: sales_date
+        description: "Date de vente"
+      - name: total_profit_eur
+        description: "Profit journalier total en euros (arrondi à 2 décimales)"
+
+  - name: profit_uk
+    description: "Agrégation journalière des revenus, coûts et profits convertis en euros pour le Royaume-Uni"
+    columns:
+      - name: sales_date
+        description: "Date de vente"
+      - name: total_profit_eur
+        description: "Profit journalier total en euros (arrondi à 2 décimales)"

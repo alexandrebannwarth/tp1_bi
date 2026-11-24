@@ -1,4 +1,4 @@
 SELECT
     *,
     quantity * unitprice AS TotalPrice
-FROM {{ source('bronze', 'orderitems') }}
+FROM {{ source('bronze', 'orderitems') }} 

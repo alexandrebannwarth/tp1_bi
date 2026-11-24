@@ -5,9 +5,70 @@ sources:
     schema: bronze
     description: "Données brutes issues de la base MySQL bronze"
     tables:
+      - name: employees
+        description: "Table brute des employés de l'enseigne"
+
+      - name: stores
+        description: "Table brute des magasins"
+
+      - name: suppliers
+        description: "Table brute des fournisseurs"
+
+      - name: products
+        description: "Table brute du catalogue produits"
+
       - name: customers
         description: "Table brute des clients"
+        columns:
+          - name: customerid
+            description: "Identifiant unique du client (clé primaire)"
+            tests:
+              - unique
+              - not_null
+
       - name: orders
         description: "Table brute des commandes"
+        columns:
+          - name: orderid
+            description: "Identifiant unique de la commande (clé primaire)"
+            tests:
+              - unique
+              - not_null
+          - name: customerid
+            description: "Identifiant du client ayant passé la commande (clé étrangère vers customers)"
+            tests:
+              - not_null
+              - relationships:
+                  to: source('bronze', 'customers')
+                  field: customerid
+          - name: status
+            description: "Statut d'avancement de la commande (01, 02 ou 03)"
+            tests:
+              - accepted_values:
+                  values: ['01', '02', '03']
+
       - name: orderitems
         description: "Table brute des lignes de commandes"
+        columns:
+          - name: orderitemid
+            description: "Identifiant de la ligne de commande"
+            tests:
+              - not_null
+          - name: orderid
+            description: "Identifiant de la commande associée (clé étrangère vers orders)"
+            tests:
+              - not_null
+              - relationships:
+                  to: source('bronze', 'orders')
+                  field: orderid
+
+  - name: training
+    schema: training
+    description: "Données brutes des ventes par pays"
+    tables:
+      - name: sales_india
+        description: "Ventes brutes réalisées en Inde (en INR)"
+      - name: sales_us
+        description: "Ventes brutes réalisées aux États-Unis (en USD)"
+      - name: sales_uk
+        description: "Ventes brutes réalisées au Royaume-Uni (en GBP)"

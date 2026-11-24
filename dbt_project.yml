@@ -29,13 +29,21 @@ clean-targets:         # directories to be removed by `dbt clean`
 # In this example config, we tell dbt to build all models in the example/
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
+
+vars:
+  eur_rate_us: 0.8906
+  eur_rate_uk: 1.177
+  eur_rate_inde: 0.00926
+
 models:
   TP1_BI:
-    # Config indicated by + and applies to all files under models/example/
+    +pre-hook:
+      - "INSERT INTO training.dbt_execution_logs (Model_name, Action) VALUES ('{{ this.name }}', 'start')"
+    +post-hook:
+      - "INSERT INTO training.dbt_execution_logs (Model_name, Action) VALUES ('{{ this.name }}', 'end')"
     staging:
       +materialized: view
       +schema: silver
     marts:
-    +materialized: table
-    +schema: gold
-
+      +materialized: table
+      +schema: gold
